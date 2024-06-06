@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import beersJSON from "./../assets/beers.json";
-
+import axios from "axios";
+import beersJSON from "./../assets/beers.json"
 
 function RandomBeersPage() {
   // Mock initial state, to be replaced by data from the Beers API. Store the beer info retrieved from the Beers API in this state variable.
@@ -17,7 +17,21 @@ function RandomBeersPage() {
   // 2. Use axios to make a HTTP request.
   // 3. Use the response data from the Beers API to update the state variable.
 
-
+  useEffect(() => {
+    const getRandomBeer = async () => {
+      try {
+        const { data } = await axios.get(
+          "https://ih-beers-api2.herokuapp.com/beers/random"
+        );
+        data.image_url =
+          "https://images.unsplash.com/photo-1608270586620-248524c67de9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+        setRandomBeer(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getRandomBeer();
+  }, []);
 
   // The logic and the structure for the page showing the random beer. You can leave this as it is.
   return (
